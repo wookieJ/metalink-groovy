@@ -34,18 +34,10 @@
 		</copy>
 	</target>
 
-	<target name="show.languages" depends="build">
-		<taskdef name="showLanguages" classname="zwiwo.groovy.ShowLanguages">
-			<classpath refid="groovy.classpath" />
-		</taskdef>
-		<showLanguages mode="debug" />
-		<showLanguages mode="release" />
-	</target>
-
 	<target name="metalink" depends="build">
 		<taskdef name="metalink" classname="zwiwo.groovy.MetalinkGenerator">
 			<classpath refid="groovy.classpath"/>
 		</taskdef>
-		<metalink />
+		<metalink startDir="C:\\ZWiWO_metalink_ant\\Folder A" destDir="C:\\ZWiWO_metalink_ant"/>
 	</target>
 </project>

@@ -5,15 +5,18 @@ import org.apache.tools.ant.BuildException
 import org.apache.tools.ant.Task
 
 class MetalinkGenerator extends Task {
-    String USER_DIR = "user.directory"
+    String START_DIR = "start.directory"
+    String DEST_DIR = "dest.directory"
+    String startDir
+    String destDir
 
     @Override
     void execute() throws BuildException {
-        String userDir = project.properties[USER_DIR]
-
-        def dir = new File(userDir)
+        if(startDir == null)
+            startDir = project.properties[START_DIR]
+        def startDir = new File(startDir)
         MetalinkData metalinkData = new MetalinkData()
-        dir.eachFileRecurse(FileType.FILES) { file ->
+        startDir.eachFileRecurse(FileType.FILES) { file ->
             if (file.isFile()) {
                 String hashValue = MD5Generator.generate(file)
                 FileData fileData = new FileData(file, hashValue)
@@ -21,5 +24,6 @@ class MetalinkGenerator extends Task {
                 metalinkData.add(fileData)
             }
         }
+        println "size=" + metalinkData.files.size()
     }
 }
