@@ -1,13 +1,21 @@
 package zwiwo.groovy
 
-import java.time.LocalDate
+import groovy.transform.EqualsAndHashCode
 
+import javax.xml.bind.annotation.*
+
+@XmlRootElement
+@EqualsAndHashCode
+@XmlAccessorType(XmlAccessType.FIELD)
 class MetalinkData {
-    LocalDate date
-    def files = []
+    Date date
+    @XmlElement(name = "file")
+    @XmlElementWrapper(name = "files")
+    List<FileData> files
 
     MetalinkData() {
-        date = LocalDate.now()
+        date = new Date()
+        files = new ArrayList<>()
     }
 
     def add(FileData fileData) {
@@ -15,6 +23,6 @@ class MetalinkData {
     }
 
     def printAll() {
-        files.each {f -> println(f)}
+        files.each { f -> println(f) }
     }
 }

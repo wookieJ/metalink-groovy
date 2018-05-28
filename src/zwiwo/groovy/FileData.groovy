@@ -1,10 +1,22 @@
 package zwiwo.groovy
 
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
+
+import javax.xml.bind.annotation.XmlAccessType
+import javax.xml.bind.annotation.XmlAccessorType
+import javax.xml.bind.annotation.XmlRootElement
+
+@XmlRootElement
+@EqualsAndHashCode
+@XmlAccessorType(XmlAccessType.FIELD)
 class FileData {
     String name
     String url
     String hash
     long size
+
+    FileData() {}
 
     FileData(String name, String url, String hash, long size) {
         this.name = name

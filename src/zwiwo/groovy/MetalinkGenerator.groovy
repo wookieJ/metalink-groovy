@@ -12,10 +12,17 @@ class MetalinkGenerator extends Task {
 
     @Override
     void execute() throws BuildException {
-        if(startDir == null)
-            startDir = project.properties[START_DIR]
-        def startDir = new File(startDir)
+        if (this.startDir == null)
+            this.startDir = project.properties[START_DIR]
+        if (destDir == null)
+            destDir = project.properties[DEST_DIR]
+
+        def startDir = new File(this.startDir)
+        def destDir = new File(destDir)
+
         MetalinkData metalinkData = new MetalinkData()
+        println metalinkData.date
+
         startDir.eachFileRecurse(FileType.FILES) { file ->
             if (file.isFile()) {
                 String hashValue = MD5Generator.generate(file)
@@ -25,5 +32,7 @@ class MetalinkGenerator extends Task {
             }
         }
         println "size=" + metalinkData.files.size()
+        XMLGenerator xmlGenerator = new XMLGenerator(metalinkData, destDir)
+        xmlGenerator.generate()
     }
 }
