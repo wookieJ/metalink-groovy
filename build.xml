@@ -38,6 +38,8 @@
 		<taskdef name="metalink" classname="zwiwo.groovy.MetalinkGenerator">
 			<classpath refid="groovy.classpath"/>
 		</taskdef>
-		<metalink startDir="C:\\ZWiWO_metalink_ant\\Folder A" destDir="C:\\ZWiWO_metalink_ant\\zad-zwiwo.xml"/>
+		<metalink startDir="C:\\ZWiWO_metalink_ant\\Folder A" destDir="C:\\ZWiWO_metalink_ant\\zad-zwiwo.xml">
+			<!--<fileset dir="." />-->
+		</metalink>
 	</target>
 </project>

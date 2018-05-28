@@ -26,7 +26,8 @@ class MetalinkGenerator extends Task {
         startDir.eachFileRecurse(FileType.FILES) { file ->
             if (file.isFile()) {
                 String hashValue = MD5Generator.generate(file)
-                FileData fileData = new FileData(file, hashValue)
+                Hash hash = new Hash("MD5", hashValue)
+                FileData fileData = new FileData(file, hash)
                 println fileData
                 metalinkData.add(fileData)
             }

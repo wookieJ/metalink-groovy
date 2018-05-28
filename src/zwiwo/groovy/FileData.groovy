@@ -1,34 +1,35 @@
 package zwiwo.groovy
 
 import groovy.transform.EqualsAndHashCode
-import groovy.transform.ToString
 
 import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType
+import javax.xml.bind.annotation.XmlAttribute
 import javax.xml.bind.annotation.XmlRootElement
 
 @XmlRootElement
 @EqualsAndHashCode
 @XmlAccessorType(XmlAccessType.FIELD)
 class FileData {
+    @XmlAttribute(name = "name")
     String name
     String url
-    String hash
+    Hash hash
     long size
 
     FileData() {}
 
-    FileData(String name, String url, String hash, long size) {
+    FileData(String name, String url, Hash hash, long size) {
         this.name = name
         this.url = url
         this.hash = hash
         this.size = size
     }
 
-    FileData(File file, String hashValue) {
+    FileData(File file, Hash hash) {
         this.name = file.getName()
         this.url = file.getAbsolutePath()
-        this.hash = hashValue
+        this.hash = hash
         this.size = file.length()
     }
 

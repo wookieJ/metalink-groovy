@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.*
 @EqualsAndHashCode
 @XmlAccessorType(XmlAccessType.FIELD)
 class MetalinkData {
+    @XmlElement(name = "published")
     Date date
     @XmlElement(name = "file")
     @XmlElementWrapper(name = "files")
