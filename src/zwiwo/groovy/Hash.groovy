@@ -1,6 +1,7 @@
 package zwiwo.groovy
 
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 
 import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType
@@ -10,6 +11,7 @@ import javax.xml.bind.annotation.XmlValue
 
 @XmlRootElement
 @EqualsAndHashCode
+@ToString
 @XmlAccessorType(XmlAccessType.FIELD)
 class Hash {
     @XmlAttribute(name = "type")

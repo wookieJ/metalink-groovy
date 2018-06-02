@@ -3,37 +3,47 @@ package zwiwo.groovy
 import groovy.io.FileType
 import org.apache.tools.ant.BuildException
 import org.apache.tools.ant.Task
+import org.apache.tools.ant.types.FileSet
 
 class MetalinkGenerator extends Task {
-    String START_DIR = "start.directory"
-    String DEST_DIR = "dest.directory"
-    String startDir
-    String destDir
+    String URL = "url.directory"
+    String FILE = "file.directory"
+    String url
+    String file
+    Vector filesets = new Vector()
+    MetalinkData metalinkData = new MetalinkData()
 
     @Override
     void execute() throws BuildException {
-        if (this.startDir == null)
-            this.startDir = project.properties[START_DIR]
-        if (destDir == null)
-            destDir = project.properties[DEST_DIR]
+        if (this.url == null)
+            this.url = project.properties[URL]
+        if (file == null)
+            file = project.properties[FILE]
 
-        def startDir = new File(this.startDir)
-        def destDir = new File(destDir)
+        filesets.each { FileSet fileSet ->
+            addFiles(fileSet.getDir())
+        }
 
-        MetalinkData metalinkData = new MetalinkData()
-        println metalinkData.date
+        XMLGenerator xmlGenerator = new XMLGenerator(metalinkData, new File(file))
+        xmlGenerator.generate()
+    }
 
-        startDir.eachFileRecurse(FileType.FILES) { file ->
-            if (file.isFile()) {
-                String hashValue = MD5Generator.generate(file)
-                Hash hash = new Hash("MD5", hashValue)
-                FileData fileData = new FileData(file, hash)
-                println fileData
-                metalinkData.add(fileData)
+    def addFiles(File file) {
+        file.eachFileRecurse(FileType.FILES) { f ->
+            if (f.isFile()) {
+                addMetalinkData(f)
             }
         }
-        println "size=" + metalinkData.files.size()
-        XMLGenerator xmlGenerator = new XMLGenerator(metalinkData, destDir)
-        xmlGenerator.generate()
+    }
+
+    private void addMetalinkData(File file) {
+        String hashValue = MD5Generator.generate(file)
+        Hash hash = new Hash("MD5", hashValue)
+        FileData fileData = new FileData(file, hash)
+        metalinkData.add(fileData)
+    }
+    
+    void addFileset(FileSet fileset) {
+        filesets.add(fileset)
     }
 }

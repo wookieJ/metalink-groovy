@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." default="build" name="groovy">
-	<property file="default.properties" />
+    <property file="default.properties"/>
 
-	<path id="groovy.classpath">
-		<pathelement location="build" />
-		<fileset dir="lib">
-			<include name="**/*.jar" />
-		</fileset>
-	</path>
+    <path id="groovy.classpath">
+        <pathelement location="build"/>
+        <fileset dir="lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
 
-	<taskdef resource="org/codehaus/groovy/antlib.xml">
-		<!-- add groovy-related tasks, e.g., groovyc -->
-		<classpath refid="groovy.classpath" />
-	</taskdef>
+    <taskdef resource="org/codehaus/groovy/antlib.xml">
+        <classpath refid="groovy.classpath"/>
+    </taskdef>
 
-	<target name="init">
-		<mkdir dir="build" />
-	</target>
+    <target name="init">
+        <mkdir dir="build"/>
+    </target>
 
-	<target name="clean" description="Cleans the project">
-		<delete dir="build" />
-	</target>
+    <target name="clean" description="Cleans the project">
+        <delete dir="build"/>
+    </target>
 
-	<target name="build" depends="init">
-		<groovyc destdir="build">
-			<src path="src" />
-			<classpath refid="groovy.classpath" />
-		</groovyc>
+    <target name="build" depends="init">
+        <groovyc destdir="build">
+            <src path="src"/>
+            <classpath refid="groovy.classpath"/>
+        </groovyc>
 
-		<copy todir="build">
-			<!-- also copy resources (if any) -->
-			<fileset dir="src" excludes="**/*.groovy" />
-		</copy>
-	</target>
+        <copy todir="build">
+            <fileset dir="src" excludes="**/*.groovy"/>
+        </copy>
+    </target>
 
-	<target name="metalink" depends="build">
-		<taskdef name="metalink" classname="zwiwo.groovy.MetalinkGenerator">
-			<classpath refid="groovy.classpath"/>
-		</taskdef>
-		<metalink startDir="C:\\ZWiWO_metalink_ant\\Folder A" destDir="C:\\ZWiWO_metalink_ant\\zad-zwiwo.xml">
-			<!--<fileset dir="." />-->
-		</metalink>
-	</target>
+    <taskdef name="metalink" classname="zwiwo.groovy.MetalinkGenerator">
+        <classpath refid="groovy.classpath"/>
+    </taskdef>
+
+    <target name="metalink" depends="build">
+        <metalink url="http://zad-zwiwo.com/download/" file="zad-zwiwo.xml">
+            <fileset dir="."/>
+        </metalink>
+    </target>
 </project>
